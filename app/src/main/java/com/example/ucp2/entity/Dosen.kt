@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "dosen")
 data class Dosen (
     @PrimaryKey
-    val Nidn: String,
+    val nidn: String,
     val nama: String,
     val jeniskelamin: String
 
