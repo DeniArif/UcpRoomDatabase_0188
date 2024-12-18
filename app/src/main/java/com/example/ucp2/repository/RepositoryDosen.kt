@@ -8,7 +8,4 @@ interface RepositoryDosen {
 
     fun getAllDosen(): Flow<List<Dosen>>
 
-    suspend fun deleteDosen(dosen: Dosen)
-
-    suspend fun updateDosen(dosen: Dosen)
 }
