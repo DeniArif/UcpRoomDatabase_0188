@@ -8,7 +8,7 @@ import com.example.ucp2.repository.RepositoryDosen
 
 class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel(){
 
-    var uiState by mutableStateOf(DOsenUIState())
+    var uiState by mutableStateOf(DosenUIState())
 }
 
 data class DosenUIState(
