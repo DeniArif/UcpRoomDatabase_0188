@@ -29,7 +29,7 @@ import com.example.ucp2.ui.navigation.AlamatNavigasi
 import com.example.ucp2.ui.viewmodel.DosenEvent
 import com.example.ucp2.ui.viewmodel.DosenUIState
 import com.example.ucp2.ui.viewmodel.DosenViewModel
-import com.example.ucp2.ui.viewmodel.FormErrorState
+import com.example.ucp2.ui.viewmodel.FormErrorStateDosen
 import com.example.ucp2.ui.viewmodel.PenyediaDosenViewModel
 import kotlinx.coroutines.launch
 
@@ -120,7 +120,7 @@ fun InsertBodyDosen(
 fun FormDosen(
     dosenEvent: DosenEvent =DosenEvent(),
     onValueChange: (DosenEvent) -> Unit,
-    errorState: FormErrorState = FormErrorState(),
+    errorState: FormErrorStateDosen = FormErrorStateDosen(),
     modifier: Modifier = Modifier
 ){
     val jeniskelamin = listOf("Laki - Laki", "Perempuan")

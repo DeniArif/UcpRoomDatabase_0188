@@ -13,16 +13,16 @@ class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel(
 
 data class DosenUIState(
     val dosenEvent: DosenEvent = DosenEvent(),
-    val isEntryValid: FormErrorState = FormErrorState(),
+    val isEntryValid: FormErrorStateDosen = FormErrorStateDosen(),
     val snackBarMessage: String? = null
 )
 
-data class FormErrorState(
+data class FormErrorStateDosen(
     val nidn: String? = null,
     val nama: String? = null,
     val jeniskelamin: String? = null
 ) {
-    fun isValid(): Boolean {
+    fun isValidDosen(): Boolean {
         return nidn == null && nama == null &&
                 jeniskelamin == null
     }
