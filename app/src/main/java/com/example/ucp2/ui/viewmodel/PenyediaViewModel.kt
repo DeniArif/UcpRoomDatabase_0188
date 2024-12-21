@@ -26,6 +26,13 @@ object PenyediaViewModel{
                 KrsApp().containerApp.repositoryMatkul
             )
         }
+
+        initializer {
+            UpdateMatakuliahViewModel(
+                createSavedStateHandle(),
+                KrsApp().containerApp.repositoryMatkul
+            )
+        }
     }
 
 }
