@@ -8,4 +8,6 @@ interface RepositoryDosen {
 
     fun getAllDosen(): Flow<List<Dosen>>
 
+    fun getDosen(nidn: String): Flow<Dosen>
+
 }
