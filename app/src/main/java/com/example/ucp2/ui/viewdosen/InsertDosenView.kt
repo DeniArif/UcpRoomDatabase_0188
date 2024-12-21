@@ -69,7 +69,7 @@ fun InsertDosenView(
             TopAppBar(
                 onBack = onBack,
                 showBackButton = true,
-                judul = " Tambah Mahasiswa "
+                judul = " Tambah Dosen "
             )
 
             InsertBodyDosen(
@@ -81,7 +81,7 @@ fun InsertDosenView(
                     corutineScope.launch {
                         viewModel.saveData()
                     }
-                    onNavigasi
+                    onNavigasi()
                 }
             )
 
