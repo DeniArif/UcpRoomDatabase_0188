@@ -30,7 +30,6 @@ import com.example.ucp2.ui.viewmodel.DosenEvent
 import com.example.ucp2.ui.viewmodel.DosenUIState
 import com.example.ucp2.ui.viewmodel.DosenViewModel
 import com.example.ucp2.ui.viewmodel.FormErrorStateDosen
-import com.example.ucp2.ui.viewmodel.PenyediaDosenViewModel
 import kotlinx.coroutines.launch
 
 object DestinasiInsert : AlamatNavigasi {
