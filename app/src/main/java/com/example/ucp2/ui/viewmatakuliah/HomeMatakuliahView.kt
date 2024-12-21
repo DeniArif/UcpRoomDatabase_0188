@@ -1,5 +1,6 @@
 package com.example.ucp2.ui.viewmatakuliah
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +13,15 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -34,8 +41,31 @@ fun HomeMatakuliahView(
     modifier: Modifier = Modifier
 
 ){
+    val corrutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember{ SnackbarHostState()}
+    when {
+        homeUiState.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+
+        homeUiState.isError -> {
+            LaunchedEffect(homeUiState.errorMessage) { }
+        }
+
+    }
 
 }
+
+@Composable
+fun BodyHomeMatkulView(
+    homeUiState: HomeMatakul,
+
+){}
 
 @Composable
 fun ListMatakuliah(
