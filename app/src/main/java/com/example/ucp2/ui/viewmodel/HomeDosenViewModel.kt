@@ -11,7 +11,7 @@ class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel(
     var uiState by mutableStateOf(DOsenUIState())
 }
 
-data class DOsenUIState(
+data class DosenUIState(
     val dosenEvent: DosenEvent = DosenEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
     val snackBarMessage: String? = null
