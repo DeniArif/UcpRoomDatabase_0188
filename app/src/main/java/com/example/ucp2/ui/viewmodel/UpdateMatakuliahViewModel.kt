@@ -40,7 +40,32 @@ class UpdateMatakuliahViewModel(
     fun validateFields(): Boolean{
         val event = updateUIState.matakuliahEvent
         val errorState = FormErrorStateMatkul(
-            kode = if (event.kode.i)
+            kode = if (event.kode.isNotEmpty()) null else "Kode Tidak Boleh Kosong",
+            nama = if (event.nama.isNotEmpty()) null else "Nama Tidak Boleh Kosong",
+            sks = if (event.sks.isNotEmpty()) null else "SKS Tidak Boleh Kosong",
+            semester = if (event.semester.isNotEmpty()) null else "Semester Tidak Boleh Kosong",
+            jenis = if (event.jenis.isNotEmpty()) null else "Jenis Tidak Boleh Kosong",
+            dosenpengampu = if (event.dosenpengampu.isNotEmpty()) null else "Dosen Pengampu Tidak Boleh Kosong",
         )
+        updateUIState = updateUIState.copy(isentryValid = errorState)
+        return errorState.isValidMatkul()
+    }
+
+    fun updateData() {
+        val currentEvent = updateUIState.matakuliahEvent
+
+        if (validateFields()) {
+            viewModelScope.updateMatkul(currentEvent.toMatakuliahEntity())
+            updateUIState = updateUIState.copy(
+                snackBarMessage = "Data Berhasil Diupdate",
+                matakuliahEvent = MatakuliahEvent(),
+                isentryValid = FormErrorStateMatkul()
+            )
+            println("snackBarMessage diatur: ${updateUiState.snackBarMessage}")
+        } catch( e: Exception) {
+            updateUiState = updateUiState.copy(
+                snackBarMessage = "Data gagal diupdate"
+            )
+        }
     }
 }
