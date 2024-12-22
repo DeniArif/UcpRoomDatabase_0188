@@ -3,13 +3,16 @@ package com.example.ucp2.ui.viewmatakuliah
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +38,7 @@ import com.example.ucp2.ui.viewmodel.DetailMatakuliahViewModel
 import com.example.ucp2.ui.viewmodel.DetailUiState
 import com.example.ucp2.ui.viewmodel.MatakuliahViewModel
 import com.example.ucp2.ui.viewmodel.PenyediaViewModel
+import com.example.ucp2.ui.viewmodel.toMatakuliahEntity
 
 @Composable
 fun DetailMatakuliahView(
@@ -70,7 +74,14 @@ fun DetailMatakuliahView(
     ){ innerPadding ->
         val detailUiState by viewModel.detailUiState.collectAsState()
 
-        BodyDetaikl
+        BodyDeteialMatkul(
+            modifier =  Modifier.padding(innerPadding),
+            detailUiState = detailUiState,
+            onDeleteClick = {
+                viewModel.deleteMatkul()
+                onDeleteClick()
+            }
+        )
     }
 }
 @Composable
@@ -83,8 +94,53 @@ fun BodyDeteialMatkul(
     when {
         detailUiState.isLoading -> {
             Box(
-                modifier
-            )
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
+        detailUiState.isUiEventNotEmpty -> {
+            Column (
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ){
+                ItemDetailMtk(
+                    matakuliah = detailUiState.detailUiEvent.toMatakuliahEntity(),
+                    modifier = Modifier
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    onClick = {
+                        deleteConfirmationRequired = true
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    Text(text = "Delete")
+                }
+                if (deleteConfirmationRequired){
+                    DeleteConfirmationDialog(
+                        onDeleteConfirm = {
+                            deleteConfirmationRequired = false
+                            onDeleteClick()
+                        },
+                        onDeleteCancel = { deleteConfirmationRequired = false },
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
+        }
+        detailUiState.isUiEventEmpty -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment =  Alignment.Center
+            ){
+                Text(
+                    text = "Data tida ditemukan",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
     }
 }
