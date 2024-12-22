@@ -5,8 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.ucp2.entity.Matakuliah
 import com.example.ucp2.repository.RepositoryMatkul
+import kotlinx.coroutines.launch
 
 class MatakuliahViewModel(private val repositoryMatkul: RepositoryMatkul): ViewModel(){
 
@@ -30,6 +32,29 @@ class MatakuliahViewModel(private val repositoryMatkul: RepositoryMatkul): ViewM
         )
         uiState = uiState.copy(isentryValid = errorState)
         return errorState.isValidMatkul()
+    }
+
+    fun saveData() {
+        val currentEvent = uiState.matakuliahEvent
+        if (validateFields()) {
+            viewModelScope.launch {
+                try {
+                    repositoryMatkul.insertMatakuliah(currentEvent.toMatakuliahEntity())
+                    uiState = uiState.copy(
+                        snackBarMessage = "Data berhasil disimpan",
+                        matakuliahEvent = MatakuliahEvent(),
+                        isentryValid = FormErrorStateMatkul()
+                    )
+                } catch (e: Exception){
+                    uiState = uiState.copy(
+                        snackBarMessage = "Input tidak valid. Periksa kembali data anda"
+                    )
+                }
+            }
+        }
+    }
+    fun reserSnackBarMessage() {
+        uiState =uiState.copy(snackBarMessage = null)
     }
 }
 
