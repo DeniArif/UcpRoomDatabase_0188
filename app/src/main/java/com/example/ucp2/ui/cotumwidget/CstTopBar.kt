@@ -15,19 +15,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TopAppbar(
+fun TopAppBar(
     onBack: () -> Unit,
     showBackButton: Boolean = true,
     judul: String,
-    modifier: Modifier =Modifier
+    modifier: Modifier = Modifier
 ){
     Box(
-      modifier = Modifier
-          .fillMaxWidth()
-          .padding(16.dp),
-        contentAlignment = Alignment.Center
+          modifier = Modifier
+              .fillMaxWidth()
+              .padding(16.dp),
+          contentAlignment = Alignment.Center
     ){
-        if ( showBackButton) {
+        if ( showBackButton ) {
             Row (
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically

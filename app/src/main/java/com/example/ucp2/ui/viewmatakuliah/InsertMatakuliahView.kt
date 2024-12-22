@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -24,12 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2.ui.navigation.AlamatNavigasi
 import com.example.ucp2.ui.viewmodel.FormErrorStateMatkul
 import com.example.ucp2.ui.viewmodel.MatakuliahEvent
 import com.example.ucp2.ui.viewmodel.MatakuliahViewModel
 import com.example.ucp2.ui.viewmodel.MtkUIState
 import com.example.ucp2.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
+
+object DestinasiInsert : AlamatNavigasi{
+    override val route: String = "Insert_mtk"
+}
 
 @Composable
 fun InsertMatakuliahView(
@@ -46,14 +52,14 @@ fun InsertMatakuliahView(
         uiState.snackBarMessage?.let { message ->
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(message)
-                viewModel.resetSnackBarMessage()
+                viewModel.reserSnackBarMessage()
             }
         }
     }
-    Scaffold (
+    Scaffold(
         modifier = modifier,
-        snackbarHost = { SnackbarHostState(hostState = snackbarHostState) }
-    ){ padding ->
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { padding ->
         Column (
             modifier = Modifier
                 .fillMaxSize()
@@ -63,7 +69,7 @@ fun InsertMatakuliahView(
             TopAppBar(
                 onBack = onBack,
                 showBackButton = true,
-                judul = " Tambah Matakuliah "
+                judul = " Tambah Matakuliah"
             )
 
             InesrtBodyMatkul(
@@ -71,8 +77,13 @@ fun InsertMatakuliahView(
                 onValueChange = { updateEvent ->
                     viewModel.updateState(updateEvent)
                 },
-                onNavigate
-            ) { }
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.saveData()
+                    }
+                    onNavigate
+                }
+            )
         }
     }
 
