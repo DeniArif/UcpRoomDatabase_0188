@@ -194,11 +194,11 @@ fun FormMatakuliah(
                 onValueChange(matakuliahEvent.copy(semester = it))
             },
             label = { Text("Semester")},
-            isError = errorState.jenis !=null,
+            isError = errorState.semester !=null,
             placeholder = { Text("Masukkan Semester")}
         )
         Text(
-            text = errorState.jenis ?: "",
+            text = errorState.semester ?: "",
             color = Color.Red
         )
 
