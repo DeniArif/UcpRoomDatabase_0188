@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ucp2.entity.Matakuliah
+import com.example.ucp2.data.entity.Matakuliah
 import com.example.ucp2.repository.RepositoryMatkul
 import com.example.ucp2.ui.cotumwidget.TopAppBar
 import com.example.ucp2.ui.viewmodel.HomeMatakuliahViewModel
@@ -140,9 +141,9 @@ fun BodyHomeMatkulView(
 
 @Composable
 fun ListMatakuliah(
-  listMatkul: List<Matakuliah>,
-  modifier: Modifier = Modifier,
-  onClick: (String) -> Unit = { }
+    listMatkul: List<Matakuliah>,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = { }
 ){
     LazyColumn(
         modifier = modifier
@@ -159,11 +160,12 @@ fun ListMatakuliah(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardsMatkul (
     matkul: Matakuliah,
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit = { },
+    onClick: () -> Unit = { },
 ){
     Card (
         onClick = onClick,

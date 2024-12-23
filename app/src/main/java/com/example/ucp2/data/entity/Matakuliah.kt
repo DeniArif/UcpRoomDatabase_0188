@@ -1,7 +1,8 @@
-package com.example.ucp2.entity
+package com.example.ucp2.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+
 
 @Entity(tableName = "matakuliah")
 data class Matakuliah(

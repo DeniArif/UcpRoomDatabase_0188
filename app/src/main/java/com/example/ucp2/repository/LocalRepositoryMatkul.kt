@@ -2,7 +2,7 @@ package com.example.ucp2.repository
 
 import com.example.ucp2.data.dao.DosenDao
 import com.example.ucp2.data.dao.MatakuliahDao
-import com.example.ucp2.entity.Matakuliah
+import com.example.ucp2.data.entity.Matakuliah
 import kotlinx.coroutines.flow.Flow
 
 class LocalRepositoryMatkul (

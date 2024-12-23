@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ucp2.entity.Matakuliah
+import com.example.ucp2.data.entity.Matakuliah
 import com.example.ucp2.ui.cotumwidget.TopAppBar
 import com.example.ucp2.ui.viewmodel.DetailMatakuliahViewModel
 import com.example.ucp2.ui.viewmodel.DetailUiState

@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ucp2.entity.Dosen
+import com.example.ucp2.data.entity.Dosen
 import com.example.ucp2.repository.RepositoryDosen
 import kotlinx.coroutines.launch
 
-class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel(){
+class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel() {
 
     var uiState by mutableStateOf(DosenUIState())
 
@@ -30,6 +30,7 @@ class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel(
         uiState = uiState.copy(isEntryValid = errorStateDosen)
         return errorStateDosen.isValidDosen()
     }
+
     fun saveData() {
         val currentEvent = uiState.dosenEvent
         if (validateFields()) {
@@ -41,21 +42,27 @@ class DosenViewModel(private val  repositoryDosen: RepositoryDosen) : ViewModel(
                         dosenEvent = DosenEvent(),
                         isEntryValid = FormErrorStateDosen()
                     )
-                }catch (e: Exception) {
+                } catch (e: Exception) {
                     uiState = uiState.copy(
                         snackBarMessage = "Input tidak valid. Periksa kembali data anda"
                     )
                 }
             }
-        }
+            } else {
+                uiState = uiState.copy(
+                    snackBarMessage = "Input Tidak valid."
+                )
+            }
 
+        }
         fun resetSnackBarMessage() {
             uiState = uiState.copy(snackBarMessage = null)
         }
     }
 
 
-}
+
+
 
 data class DosenUIState(
     val dosenEvent: DosenEvent = DosenEvent(),

@@ -6,8 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ucp2.data.entity.Matakuliah
 import com.example.ucp2.repository.RepositoryMatkul
-import com.example.ucp2.ui.navigation.DestinasiUpdate
+import com.example.ucp2.ui.navigation.DestinasiUpdateMatkul
+
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -19,7 +21,7 @@ class UpdateMatakuliahViewModel(
     var updateUIState by mutableStateOf(MtkUIState())
         private set
 
-    private val _kode: String = checkNotNull(savedStateHandle[DestinasiUpdate.KODE])
+    private val _kode: String = checkNotNull(savedStateHandle[DestinasiUpdateMatkul.KODE])
 
 
     init {
@@ -55,17 +57,32 @@ class UpdateMatakuliahViewModel(
         val currentEvent = updateUIState.matakuliahEvent
 
         if (validateFields()) {
-            viewModelScope.update(currentEvent.toMatakuliahEntity())
+            viewModelScope.launch {
+                try {
+                    repositoryMatkul.updateMatakuliah(currentEvent.toMatakuliahEntity())
+                    updateUIState = updateUIState.copy(
+                        snackBarMessage = "Data Berhasil Diupdate",
+                        matakuliahEvent = MatakuliahEvent(),
+                        isentryValid = FormErrorStateMatkul()
+                    )
+                    println("snackBarMessage diatur: ${updateUIState.snackBarMessage}")
+                }catch( e: Exception){
+                    updateUIState = updateUIState.copy(
+                        snackBarMessage = "Data gagal diupdate"
+                    )
+                }
+            }
+        } else {
             updateUIState = updateUIState.copy(
-                snackBarMessage = "Data Berhasil Diupdate",
-                matakuliahEvent = MatakuliahEvent(),
-                isentryValid = FormErrorStateMatkul()
-            )
-            println("snackBarMessage diatur: ${updateUiState.snackBarMessage}")
-        } catch( e: Exception) {
-            updateUiState = updateUiState.copy(
                 snackBarMessage = "Data gagal diupdate"
             )
         }
     }
+    fun resetSnackBarMessage(){
+        updateUIState = updateUIState.copy(snackBarMessage = null)
+    }
 }
+
+fun Matakuliah.toUIStateMatkul(): MtkUIState = MtkUIState(
+    matakuliahEvent = this.toDetailUiEvent()
+)

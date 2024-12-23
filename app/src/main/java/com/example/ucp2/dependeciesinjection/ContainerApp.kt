@@ -1,6 +1,7 @@
 package com.example.ucp2.dependeciesinjection
 
 import android.content.Context
+import com.example.ucp2.data.database.KrsDatabaseMatakuliah
 import com.example.ucp2.repository.LocalRepositoryDosen
 import com.example.ucp2.repository.LocalRepositoryMatkul
 import com.example.ucp2.repository.RepositoryDosen
@@ -13,10 +14,10 @@ interface InterfaceContainerApp {
 
 class ContainerApp (private val context: Context) : InterfaceContainerApp {
     override  val repositoryDosen: RepositoryDosen by lazy {
-        LocalRepositoryDosen(KrsDatabaseDosen.getDatabase(context).dosen())
+        LocalRepositoryDosen(KrsDatabaseMatakuliah.getDatabase(context).dosenDao())
     }
 
     override val repositoryMatkul: RepositoryMatkul by lazy {
-        LocalRepositoryMatkul(KrsDatabaseDosen.getDatabase(context).matakuliah())
+        LocalRepositoryMatkul(KrsDatabaseMatakuliah.getDatabase(context).matakuliahDao())
     }
 }
