@@ -51,17 +51,17 @@ fun InsertMatakuliahView(
     modifier: Modifier = Modifier,
     viewModel: MatakuliahViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
-    val uiStateMk = viewModel.uiStateMk
+    val uiState = viewModel.uiState
     val dosenList = viewModel.dosenList // Ambil daftar dosen dari viewModel
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     // Menangani pesan snackbar
-    LaunchedEffect(uiStateMk.snackBarMessage) {
-        uiStateMk.snackBarMessage?.let { message ->
+    LaunchedEffect(uiState.snackBarMessage) {
+        uiState.snackBarMessage?.let { message ->
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(message)
-                viewModel.reserSnackBarMessage()
+                viewModel.resetSnackBarMessage()
             }
         }
     }
@@ -83,7 +83,7 @@ fun InsertMatakuliahView(
             )
 
             InesrtBodyMatkul(
-                uiState = uiStateMk,
+                uiState = uiState,
                 onValueChange = { updateEvent -> viewModel.updateState(updateEvent) },
                 onClick = {
                     coroutineScope.launch {
@@ -91,7 +91,7 @@ fun InsertMatakuliahView(
                     }
                     onNavigate()
                 },
-                dosenList = uiStateMk.dosenList  // Kirim daftar dosen ke FormMatakuliah
+                dosenList = uiState.dosenList  // Kirim daftar dosen ke FormMatakuliah
             )
         }
     }
@@ -137,6 +137,7 @@ fun FormMatakuliah(
     dosenList: List<Dosen> = emptyList()  // Tambahkan dosenList sebagai parameter
 ) {
     val sks = listOf("1", "2", "3")
+    val jenis = listOf("Wajib", "Peminatan")
     val expanded = remember { mutableStateOf(false) }
     val selectedDosen = rememberSaveable { mutableStateOf(matakuliahEvent.dosenpengampu) }
 
@@ -199,6 +200,51 @@ fun FormMatakuliah(
             text = errorState.sks ?: "",
             color = Color.Red
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = matakuliahEvent.semester,
+            onValueChange = {
+                onValueChange(matakuliahEvent.copy(semester = it))
+            },
+            label = { Text("SEMESTER") },
+            isError = errorState.semester != null,
+            placeholder = {Text("Masukkan Semester")},
+
+            )
+        Text(
+            text = errorState.semester ?:"",
+            color = Color.Red
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Jenis MataKuliah")
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ){
+            jenis.forEach{ jm ->
+                Row  (
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ){
+                    RadioButton(
+                        selected = matakuliahEvent.jenis == jm,
+                        onClick = {
+                            onValueChange(matakuliahEvent.copy(jenis = jm))
+                        }
+                    )
+
+                    Text(
+                        text = jm,
+                    )
+                }
+            }
+        }
+        Text(
+            text = errorState.jenis?: "",
+            color = Color.Red
+        )
+
 
         ExposedDropdownMenuBox(
             expanded = expanded.value,

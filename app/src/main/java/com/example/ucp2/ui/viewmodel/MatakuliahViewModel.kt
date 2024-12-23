@@ -19,8 +19,8 @@ class MatakuliahViewModel(
     private val repositoryDosen: RepositoryDosen
 ) : ViewModel() {
 
-    var uiStateMk by mutableStateOf(MtkUIState())
-    var dosenList by mutableStateOf<List<String>>(emptyList())  // Menyimpan daftar dosen
+    var uiState by mutableStateOf(MtkUIState())
+    var dosenList by mutableStateOf<List<Dosen>>(emptyList())  // Menyimpan daftar dosen
 
     init {
         loadDosenList()
@@ -28,14 +28,12 @@ class MatakuliahViewModel(
 
     // Fungsi untuk memperbarui state
     fun updateState(matakuliahEvent: MatakuliahEvent) {
-        uiStateMk = uiStateMk.copy(
-            matakuliahEvent = matakuliahEvent
-        )
+        uiState = uiState.copy(matakuliahEvent = matakuliahEvent)
     }
 
     // Validasi input form
     private fun validateFields(): Boolean {
-        val event = uiStateMk.matakuliahEvent
+        val event = uiState.matakuliahEvent
         val errorState = FormErrorStateMatkul(
             kode = if (event.kode.isNotEmpty()) null else "Kode tidak boleh kosong",
             nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
@@ -44,24 +42,26 @@ class MatakuliahViewModel(
             jenis = if (event.jenis.isNotEmpty()) null else "Jenis tidak boleh kosong",
             dosenpengampu = if (event.dosenpengampu.isNotEmpty()) null else "Dosen Pengampu tidak boleh kosong"
         )
-        uiStateMk = uiStateMk.copy(isentryValid = errorState)
+        println("Validation Errors: $errorState")
+        uiState = uiState.copy(isentryValid = errorState)
         return errorState.isValidMatkul()
     }
 
     // Fungsi untuk menyimpan data
     fun saveData() {
-        val currentEvent = uiStateMk.matakuliahEvent
+        val currentEvent = uiState.matakuliahEvent
         if (validateFields()) {
             viewModelScope.launch {
                 try {
                     repositoryMatkul.insertMatakuliah(currentEvent.toMatakuliahEntity())
-                    uiStateMk = uiStateMk.copy(
+                    uiState = uiState.copy(
                         snackBarMessage = "Data berhasil disimpan",
                         matakuliahEvent = MatakuliahEvent(),
                         isentryValid = FormErrorStateMatkul()
                     )
                 } catch (e: Exception) {
-                    uiStateMk = uiStateMk.copy(
+                    println("Error saving data: ${e.message}")
+                    uiState = uiState.copy(
                         snackBarMessage = "Input tidak valid. Periksa kembali data anda"
                     )
                 }
@@ -70,33 +70,31 @@ class MatakuliahViewModel(
     }
 
     // Fungsi untuk mengatur ulang pesan Snackbar
-    fun reserSnackBarMessage() {
-        uiStateMk = uiStateMk.copy(snackBarMessage = null)
+    fun resetSnackBarMessage() {
+        uiState = uiState.copy(snackBarMessage = null)
     }
 
     // Fungsi untuk memuat daftar dosen
     private fun loadDosenList() {
         viewModelScope.launch {
-            repositoryDosen.getAllDosen() // Menggunakan Flow untuk mendapatkan daftar dosen
+            repositoryDosen.getAllDosen()
                 .onStart {
-                    uiStateMk = uiStateMk.copy(isLoading = true)
+                    uiState = uiState.copy(isLoading = true)
                 }
                 .catch { e ->
-                    uiStateMk = uiStateMk.copy(
+                    uiState= uiState.copy(
                         snackBarMessage = "Gagal memuat daftar dosen: ${e.message}",
                         isLoading = false
                     )
                 }
                 .collect { dosenList ->
-                    // Mengambil nama dosen dari setiap objek Dosen dan menyimpannya dalam List<String>
-                    uiStateMk = uiStateMk.copy(
-                        dosenList = dosenList,  // Memperbarui dosenList di UI State
+                    uiState = uiState.copy(
+                        dosenList = dosenList,
                         isLoading = false
                     )
                 }
         }
     }
-
 }
 
 data class MtkUIState(
