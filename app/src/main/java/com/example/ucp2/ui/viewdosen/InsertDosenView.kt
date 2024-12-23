@@ -33,7 +33,7 @@ import com.example.ucp2.ui.viewmodel.FormErrorStateDosen
 import com.example.ucp2.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
-object DestinasiInsert : AlamatNavigasi {
+object DestinasiInsertDosen : AlamatNavigasi {
     override val route : String = "Insert_dosen"
 }
 

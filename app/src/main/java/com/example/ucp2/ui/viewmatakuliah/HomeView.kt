@@ -1,20 +1,21 @@
 package com.example.ucp2.ui.viewmatakuliah
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ucp2.R
 import com.example.ucp2.ui.cotumwidget.TopAppBar
 
 @Composable
@@ -41,6 +42,7 @@ fun HomeView(
     }
 }
 
+
 @Composable
 fun HomeContent(
     onNavigateToMatakuliah: () -> Unit = {},
@@ -48,45 +50,74 @@ fun HomeContent(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
+            // Header Image
+            Image(
+                painter = painterResource(id = R.drawable.umy),
+                contentDescription = "Logo Universitas",
+                modifier = Modifier
+                    .size(120.dp)
+                    .padding(bottom = 16.dp)
+            )
+
+            // Welcome Text
             Text(
                 text = "Selamat Datang di Aplikasi",
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
+                fontSize = 26.sp,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
-                text = "Kelola data matakuliah dan dosen dengan mudah.",
-                fontSize = 16.sp,
-                modifier = Modifier.padding(bottom = 32.dp)
+                text = "Universitas Muhammadiyah Yogyakarta",
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
-            Button(
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Buttons Section
+            ElevatedButton(
                 onClick = onNavigateToMatakuliah,
-                modifier = Modifier.padding(bottom = 16.dp)
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.fillMaxWidth(0.8f)
             ) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
-                    contentDescription = "Matakuliah",
+                    contentDescription = "Kelola Matakuliah",
+                    tint = Color.White,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                Text(text = "Kelola Matakuliah")
+                Text(text = "Kelola Matakuliah", color = Color.White)
             }
 
-            Button(
-                onClick = onNavigateToDosen
+            ElevatedButton(
+                onClick = onNavigateToDosen,
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                ),
+                modifier = Modifier.fillMaxWidth(0.8f)
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "Dosen",
+                    contentDescription = "Kelola Dosen",
+                    tint = Color.White,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                Text(text = "Kelola Dosen")
+                Text(text = "Kelola Dosen", color = Color.White)
             }
         }
     }

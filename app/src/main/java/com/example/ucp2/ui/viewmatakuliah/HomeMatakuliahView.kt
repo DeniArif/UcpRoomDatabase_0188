@@ -49,14 +49,15 @@ fun HomeMatakuliahView(
     viewModel: HomeMatakuliahViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onAddMatkul: () -> Unit = { },
     onDetailClick: (String) -> Unit = { },
+    onBack: () -> Unit = { },
     modifier: Modifier = Modifier
 ){
     Scaffold(
         topBar = {
             TopAppBar(
                 judul = "Daftar Matakuliah",
-                showBackButton = false,
-                onBack = { },
+                showBackButton = true,
+                onBack = onBack,
                 modifier = modifier
             )
 

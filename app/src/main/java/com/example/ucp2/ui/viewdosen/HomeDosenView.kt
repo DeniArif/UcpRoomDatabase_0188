@@ -33,6 +33,7 @@ import kotlinx.coroutines.launch
 fun HomeDosenView(
     viewModel: HomeDosenViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onAddDosen: () -> Unit = {},
+    onBack: () -> Unit = {},
     onDetailClick: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -40,8 +41,8 @@ fun HomeDosenView(
         topBar = {
             TopAppBar(
                 judul = "Daftar Dosen",
-                showBackButton = false,
-                onBack = {},
+                showBackButton = true,
+                onBack = onBack,
                 modifier = modifier
             )
         },

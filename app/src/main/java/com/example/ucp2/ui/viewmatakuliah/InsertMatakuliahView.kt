@@ -125,7 +125,7 @@ fun FormMatakuliah(
   modifier: Modifier = Modifier
 ){
     val sks = listOf("1","2","3")
-    val semester = listOf("1","2","3","4","5","6","7","8")
+
 
     Column (
         modifier = modifier.fillMaxWidth()
@@ -165,7 +165,7 @@ fun FormMatakuliah(
         Row(
             modifier = Modifier.fillMaxWidth()
         ){
-            semester.forEach{ sks ->
+            sks.forEach{ sks ->
                 Row (
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
@@ -187,32 +187,22 @@ fun FormMatakuliah(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Semester")
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ){
-            semester.forEach{ smt ->
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
-                ){
-                    RadioButton(
-                        selected = matakuliahEvent.semester == smt,
-                        onClick =  {
-                            onValueChange(matakuliahEvent.copy(semester = smt))
-                        },
-                    )
-                    Text(
-                        text = smt,
-                    )
-                }
-            }
-        }
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = matakuliahEvent.semester,
+            onValueChange = {
+                onValueChange(matakuliahEvent.copy(semester = it))
+            },
+            label = { Text("Semester")},
+            isError = errorState.jenis !=null,
+            placeholder = { Text("Masukkan Semester")}
+        )
         Text(
-            text = errorState.semester ?:" ",
+            text = errorState.jenis ?: "",
             color = Color.Red
         )
+
+
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),

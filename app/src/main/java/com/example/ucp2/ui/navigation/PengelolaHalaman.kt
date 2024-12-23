@@ -8,12 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.ucp2.ui.viewdosen.DestinasiInsert
-import com.example.ucp2.ui.viewmatakuliah.DetailMatakuliahView
-import com.example.ucp2.ui.viewmatakuliah.HomeMatakuliahView
-import com.example.ucp2.ui.viewmatakuliah.InsertMatakuliahView
-import com.example.ucp2.ui.viewmatakuliah.UpdateMtkView
-import com.example.ucp2.ui.viewmatakuliah.HomeView
+import com.example.ucp2.ui.viewdosen.HomeDosenView
+import com.example.ucp2.ui.viewdosen.InsertDosenView
+import com.example.ucp2.ui.viewmatakuliah.*
 
 @Composable
 fun PengelolaHalaman(
@@ -22,92 +19,94 @@ fun PengelolaHalaman(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         // Home Page
-        composable(
-            route = "home"
-        ) {
+        composable(route = "home") {
             HomeView(
                 onNavigateToMatakuliah = {
                     navController.navigate(DestinasiHomeMatkul.route)
                 },
                 onNavigateToDosen = {
-                    navController.navigate(DestinasiInsert.route)
+                    navController.navigate(DestinasiHomeDosen.route)
                 },
                 modifier = modifier
+
             )
         }
 
         // Matakuliah Home Page
-        composable(
-            route = DestinasiHomeMatkul.route
-        ) {
+        composable(route = DestinasiHomeMatkul.route) {
             HomeMatakuliahView(
                 onDetailClick = { kode ->
                     navController.navigate("${DestinasiDetail.route}/$kode")
                 },
+                onBack = { navController.popBackStack() },
                 onAddMatkul = {
                     navController.navigate(DestinasiInsert.route)
                 },
                 modifier = modifier
+
             )
         }
 
         // Insert Matakuliah Page
-        composable(
-            route = DestinasiInsert.route
-        ) {
+        composable(route = DestinasiInsertDosen.route) {
             InsertMatakuliahView(
-                onBack = {
-                    navController.popBackStack()
-                },
-                onNavigate = {
-                    navController.popBackStack()
-                },
+                onBack = { navController.popBackStack() },
+                onNavigate = { navController.popBackStack() },
                 modifier = modifier
             )
         }
 
         // Detail Matakuliah Page
         composable(
-            DestinasiDetail.routesWithArg,
+            route = DestinasiDetail.routesWithArg,
             arguments = listOf(
-                navArgument(DestinasiDetail.KODE) {
-                    type = NavType.StringType
-                }
+                navArgument(DestinasiDetail.KODE) { type = NavType.StringType }
             )
         ) {
             val kode = it.arguments?.getString(DestinasiDetail.KODE)
             DetailMatakuliahView(
-                onBack = {
-                    navController.popBackStack()
-                },
-                onEditClick = {
-                    navController.navigate("${DestinasiUpdateMatkul.route}/$kode")
-                },
+                onBack = { navController.popBackStack() },
+                onEditClick = { navController.navigate("${DestinasiUpdateMatkul.route}/$kode") },
                 modifier = modifier,
-                onDeleteClick = {
-                    navController.popBackStack()
-                }
+                onDeleteClick = { navController.popBackStack() }
             )
         }
 
         // Update Matakuliah Page
         composable(
-            DestinasiUpdateMatkul.routeWithArg,
+            route = DestinasiUpdateMatkul.routeWithArg,
             arguments = listOf(
-                navArgument(DestinasiUpdateMatkul.KODE) {
-                    type = NavType.StringType
-                }
+                navArgument(DestinasiUpdateMatkul.KODE) { type = NavType.StringType }
             )
         ) {
             UpdateMtkView(
-                onBack = {
-                    navController.popBackStack()
-                },
-                onNavigate = {
-                    navController.popBackStack()
-                },
+                onBack = { navController.popBackStack() },
+                onNavigate = { navController.popBackStack() },
                 modifier = modifier
             )
         }
+
+        // Dosen Home Page
+        composable(route = DestinasiHomeDosen.route) {
+            HomeDosenView(
+                onAddDosen = {
+                    navController.navigate(DestinasiInsertDosen.route)
+                },
+                onBack = { navController.popBackStack() },
+                modifier = modifier
+
+            )
+        }
+
+// Insert Dosen Page
+        composable(route = DestinasiInsertDosen.route) {
+            InsertDosenView(
+                onBack = { navController.popBackStack() },
+                onNavigasi = { navController.popBackStack() },
+                modifier = modifier
+            )
+        }
+
+
     }
 }
