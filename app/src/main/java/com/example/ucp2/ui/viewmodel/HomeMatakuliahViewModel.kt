@@ -3,6 +3,7 @@ package com.example.ucp2.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ucp2.data.entity.Matakuliah
+import com.example.ucp2.repository.RepositoryDosen
 import com.example.ucp2.repository.RepositoryMatkul
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 class HomeMatakuliahViewModel(
-    private val repositoryMatkul: RepositoryMatkul
+    private val repositoryMatkul: RepositoryMatkul,
+    private val repositoryDosen: RepositoryDosen
 
 ): ViewModel() {
 

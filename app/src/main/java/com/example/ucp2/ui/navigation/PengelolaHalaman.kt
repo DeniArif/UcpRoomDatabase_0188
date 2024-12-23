@@ -40,7 +40,7 @@ fun PengelolaHalaman(
                 },
                 onBack = { navController.popBackStack() },
                 onAddMatkul = {
-                    navController.navigate(DestinasiInsert.route)
+                    navController.navigate(DestinasiInsertMatkul.route)
                 },
                 modifier = modifier
 
@@ -48,7 +48,7 @@ fun PengelolaHalaman(
         }
 
         // Insert Matakuliah Page
-        composable(route = DestinasiInsertDosen.route) {
+        composable(route = DestinasiInsertMatkul.route) {
             InsertMatakuliahView(
                 onBack = { navController.popBackStack() },
                 onNavigate = { navController.popBackStack() },
@@ -98,7 +98,7 @@ fun PengelolaHalaman(
             )
         }
 
-// Insert Dosen Page
+        // Insert Dosen Page
         composable(route = DestinasiInsertDosen.route) {
             InsertDosenView(
                 onBack = { navController.popBackStack() },
@@ -106,7 +106,5 @@ fun PengelolaHalaman(
                 modifier = modifier
             )
         }
-
-
     }
 }

@@ -22,24 +22,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 @Composable
 fun UpdateMtkView(
   onBack: () -> Unit,
   onNavigate: () -> Unit,
   modifier: Modifier = Modifier,
   viewModel: UpdateMatakuliahViewModel = viewModel(factory = PenyediaViewModel.Factory)
-){
+) {
   val uiState = viewModel.updateUIState
   val snackbarHostState = remember { SnackbarHostState() }
-  val corutineScope = rememberCoroutineScope()
+  val coroutineScope = rememberCoroutineScope()
 
   LaunchedEffect(uiState.snackBarMessage) {
-    println("LaunchedEffect triggered")
     uiState.snackBarMessage?.let { message ->
-      println("Snackbar message received: $message")
-      corutineScope.launch {
-        println("Launching coroutine for snackbar")
+      coroutineScope.launch {
         snackbarHostState.showSnackbar(
           message = message,
           duration = SnackbarDuration.Long
@@ -49,40 +45,41 @@ fun UpdateMtkView(
     }
   }
 
-    Scaffold  (
-      modifier = modifier,
-      snackbarHost = {SnackbarHost(hostState = snackbarHostState) },
-      topBar = {
-        TopAppBar(
-          judul = "Edit Matakuliah",
-          showBackButton = true,
-          onBack = onBack,
-        )
-      }
-    ){ padding ->
-      Column (
-        modifier = Modifier
-          .fillMaxSize()
-          .padding(padding)
-          .padding(16.dp)
-      ){
-        InesrtBodyMatkul(
-          uiState = uiState,
-          onValueChange = { updateEvent ->
-            viewModel.updateState(updateEvent)
-          },
-          onClick = {
-            corutineScope.launch {
-              if (viewModel.validateFields()){
-                viewModel.updateData()
-                delay(600)
-                withContext(Dispatchers.Main){
-                  onNavigate()
-                }
+  Scaffold(
+    modifier = modifier,
+    snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+    topBar = {
+      TopAppBar(
+        judul = "Edit Matakuliah",
+        showBackButton = true,
+        onBack = onBack,
+      )
+    }
+  ) { padding ->
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .padding(padding)
+        .padding(16.dp)
+    ) {
+      InesrtBodyMatkul(
+        uiState = uiState,
+        onValueChange = { updateEvent ->
+          viewModel.updateState(updateEvent)
+        },
+        onClick = {
+          coroutineScope.launch {
+            if (viewModel.validateFields()) {
+              viewModel.updateData()
+              delay(600)
+              withContext(Dispatchers.Main) {
+                onNavigate()
               }
             }
           }
-        )
-      }
+        },
+        dosenList = viewModel.dosenList
+      )
     }
   }
+}

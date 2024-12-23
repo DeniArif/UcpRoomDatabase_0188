@@ -16,6 +16,10 @@ object DestinasiInsertDosen : AlamatNavigasi{
     override val route = "insert_dosen"
 }
 
+object DestinasiInsertMatkul : AlamatNavigasi{
+    override val route = "insert_matakuliah"
+}
+
 
 object DestinasiDetail : AlamatNavigasi{
     override  val route = "detail_matkul"

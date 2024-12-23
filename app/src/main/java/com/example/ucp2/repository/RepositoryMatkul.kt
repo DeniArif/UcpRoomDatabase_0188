@@ -1,6 +1,7 @@
 package com.example.ucp2.repository
 
 import com.example.ucp2.data.dao.MatakuliahDao
+import com.example.ucp2.data.entity.Dosen
 import com.example.ucp2.data.entity.Matakuliah
 import kotlinx.coroutines.flow.Flow
 
@@ -10,6 +11,8 @@ interface RepositoryMatkul {
     fun getAllMatakuliah(): Flow<List<Matakuliah>>
 
     fun getMatakuliah(kode: String): Flow<Matakuliah>
+
+    fun getAllDosen(): Flow<List<Dosen>>
 
     suspend fun deleteMatakuliah(matkul: Matakuliah)
 
