@@ -15,7 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2.ui.cotumwidget.TopAppBar
 import com.example.ucp2.ui.navigation.AlamatNavigasi
 import com.example.ucp2.ui.viewmodel.FormErrorStateMatkul
 import com.example.ucp2.ui.viewmodel.MatakuliahEvent
@@ -69,7 +70,7 @@ fun InsertMatakuliahView(
             TopAppBar(
                 onBack = onBack,
                 showBackButton = true,
-                judul = " Tambah Matakuliah"
+                judul = "Tambah Matakuliah"
             )
 
             InesrtBodyMatkul(

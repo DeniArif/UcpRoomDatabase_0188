@@ -55,7 +55,7 @@ class UpdateMatakuliahViewModel(
         val currentEvent = updateUIState.matakuliahEvent
 
         if (validateFields()) {
-            viewModelScope.updateMatkul(currentEvent.toMatakuliahEntity())
+            viewModelScope.update(currentEvent.toMatakuliahEntity())
             updateUIState = updateUIState.copy(
                 snackBarMessage = "Data Berhasil Diupdate",
                 matakuliahEvent = MatakuliahEvent(),

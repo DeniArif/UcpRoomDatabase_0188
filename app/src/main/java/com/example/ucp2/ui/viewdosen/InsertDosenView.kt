@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -25,11 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucp2.ui.cotumwidget.TopAppBar
 import com.example.ucp2.ui.navigation.AlamatNavigasi
 import com.example.ucp2.ui.viewmodel.DosenEvent
 import com.example.ucp2.ui.viewmodel.DosenUIState
 import com.example.ucp2.ui.viewmodel.DosenViewModel
 import com.example.ucp2.ui.viewmodel.FormErrorStateDosen
+import com.example.ucp2.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
 object DestinasiInsert : AlamatNavigasi {
@@ -41,7 +42,7 @@ fun InsertDosenView(
     onBack: () -> Unit,
     onNavigasi: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DosenViewModel = viewModel(factory = PenyediaDosenViewModel.Factory)
+    viewModel: DosenViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
     val uiState = viewModel.uiState
     val snackbarHostState = remember { SnackbarHostState() }
@@ -68,8 +69,9 @@ fun InsertDosenView(
             TopAppBar(
                 onBack = onBack,
                 showBackButton = true,
-                judul = " Tambah Dosen "
+                judul = "Tambah Dosen"
             )
+
 
             InsertBodyDosen(
                 uiState = uiState,
@@ -148,9 +150,9 @@ fun FormDosen(
             onValueChange = {
                 onValueChange(dosenEvent.copy(nidn = it))
             },
-            label = { Text("nama")},
+            label = { Text("NIDN")},
             isError = errorState.nidn !=null,
-            placeholder = { Text("Masukkan nama")},
+            placeholder = { Text("Masukkan NIDN")},
         )
         Text(
             text = errorState.nidn ?:"",
