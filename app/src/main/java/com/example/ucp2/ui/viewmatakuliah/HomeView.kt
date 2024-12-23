@@ -60,6 +60,7 @@ fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxSize()
         ) {
+
             // Header Image
             Image(
                 painter = painterResource(id = R.drawable.umy),
